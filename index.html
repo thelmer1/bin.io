@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant Website</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poetsen+One&display=swap");
+
+      /* styles.css */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        background: linear-gradient(90deg, #bb393bc0, #947f15);
+      }
+
+      header {
+        background: #000;
+        padding: 10px 0;
+        position: relative;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      nav .logo {
+        font-size: 24px;
+        font-family: "Poetsen One", sans-serif;
+        font-weight: bold;
+        letter-spacing: 5px;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+      }
+
+      nav ul li {
+        margin: 0 15px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
+        font-family: "Poetsen One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        transition: 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: rgba(168, 180, 3, 0.87);
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -290px;
+        width: 250px;
+        height: 100%;
+        background: #1b2735;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease;
+        z-index: 1000;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .sidebar .close-btn {
+        font-size: 30px;
+        cursor: pointer;
+        color: #fff;
+        text-align: right;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 30px;
+      }
+
+      .sidebar ul li {
+        margin: 20px 0;
+      }
+
+      .sidebar ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 18px;
+        font-family: "Poetsen One", sans-serif;
+        font-weight: 400;
+      }
+
+      .menu-icon {
+        display: none;
+        font-size: 30px;
+        cursor: pointer;
+        color: #fff;
+      }
+
+      /* Container with background image and overlay */
+      .container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 80vh;
+        padding: 0 50px;
+        background: linear-gradient(
+            45deg,
+            rgba(238, 255, 0, 0.24) 50%,
+            transparent 50%
+          ),
+          url("c4.jpg") no-repeat center center / cover;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(
+          0,
+          0,
+          0,
+          0.397
+        ); /* Change the color and opacity as needed */
+        z-index: 1;
+      }
+
+      /* Ensure the content inside the container is above the overlay */
+      .container .content,
+      .container .image {
+        position: relative;
+        z-index: 2;
+      }
+
+      .content {
+        max-width: 50%;
+      }
+
+      .content h1 {
+        font-size: 48px;
+        margin: 0;
+        font-family: "Libre Baskerville", serif;
+        font-weight: 400;
+        font-style: italic;
+      }
+
+      .content h1 span {
+        color: rgba(238, 255, 0, 0.87);
+        font-family: "Libre Baskerville", serif;
+        font-weight: 400;
+        font-style: italic;
+      }
+
+      .content p {
+        font-size: 18px;
+        margin: 20px 0;
+      }
+
+      .order-btn {
+        padding: 15px 30px;
+        font-size: 16px;
+        color: #fff;
+        background: rgba(238, 255, 0, 0.87);
+        border-radius: 2rem;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .order-btn:hover {
+        background: rgba(168, 180, 3, 0.87);
+      }
+
+      #featured-foods {
+        padding: 50px 20px;
+        text-align: center;
+      }
+
+      #featured-foods h2 {
+        font-size: 36px;
+        margin-bottom: 40px;
+        font-family: "Poetsen One", sans-serif;
+        font-weight: bold;
+      }
+
+      .food-item {
+        position: relative;
+        display: inline-block;
+        margin: 20px;
+      }
+
+      .food-item img {
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s;
+      }
+
+      .food-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .food-item:hover .overlay {
+        opacity: 1;
+      }
+
+      .layer {
+        position: absolute;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        font-size: 14px;
+        border-radius: 5px;
+        transition: transform 0.3s;
+      }
+
+      .layer:nth-child(1) {
+        top: 20px;
+        left: 20px;
+      }
+
+      .layer:nth-child(2) {
+        top: 80px;
+        left: 40px;
+      }
+
+      .layer:nth-child(3) {
+        top: 140px;
+        left: 60px;
+      }
+
+      .layer:hover {
+        transform: scale(1.1);
+      }
+
+      @media (max-width: 768px) {
+        .menu-icon {
+          display: block;
+        }
+
+        nav ul {
+          display: none;
+        }
+
+        .container {
+          flex-direction: column;
+          text-align: center;
+          padding: 20px;
+        }
+
+        .content,
+        .image {
+          max-width: 100%;
+        }
+
+        .sidebar ul {
+          flex-direction: column;
+        }
+
+        .sidebar ul li {
+          margin: 10px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo" id="logo">Cool Bin Café</div>
+        <div class="menu-icon" id="menu-icon">
+          <i class="bx bx-menu-alt-right"></i>
+        </div>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="#reservations">Reservations</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#events">Events</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="home" class="container">
+      <div class="content">
+        <h1>
+          Unwind with Crafted Coffee. <br /><span> Delightful Ice Cream.</span>
+        </h1>
+        <p class="para">Perfect for any Moment.</p>
+        <button class="order-btn">Contact Us</button>
+      </div>
+    </div>
+
+    <section id="featured-foods">
+      <h2>Featured Dishes</h2>
+      <div class="food-item">
+        <img src="c5.jpg" alt="Featured Food 1" />
+        <div class="overlay">
+          <div class="layer">Ingredient 1</div>
+          <div class="layer">Ingredient 2</div>
+          <div class="layer">Ingredient 3</div>
+        </div>
+      </div>
+      <div class="food-item">
+        <img src="c1.jpg" alt="Featured Food 2" />
+        <div class="overlay">
+          <div class="layer">Ingredient 1</div>
+          <div class="layer">Ingredient 2</div>
+          <div class="layer">Ingredient 3</div>
+        </div>
+      </div>
+      <div class="food-item">
+        <img src="c2.jpg" alt="Featured Food 3" />
+        <div class="overlay">
+          <div class="layer">Ingredient 1</div>
+          <div class="layer">Ingredient 2</div>
+          <div class="layer">Ingredient 3</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sidebar" id="sidebar">
+      <div class="close-btn" id="close-btn"><i class="bx bx-x"></i></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="#reservations">Reservations</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#events">Events</a></li>
+      </ul>
+    </div>
+
+    <script>
+      var menu = document.getElementById("menu-icon");
+      menu.addEventListener("click", function () {
+        document.getElementById("sidebar").classList.add("active");
+        menu.style.display = "none";
+      });
+      var close = document.getElementById("close-btn");
+      close.addEventListener("click", function () {
+        document.getElementById("sidebar").classList.remove("active");
+        menu.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
